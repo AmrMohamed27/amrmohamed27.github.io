@@ -53,3 +53,10 @@ form .radios {
 .radios .radio-container {
   width: 100%;
 }
+.timer-container * {
+  height: 70px;
+  font-size: 1.4rem;
+}
+.timer-container #number {
+  text-align: center;
+}

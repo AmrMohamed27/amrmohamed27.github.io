@@ -12,7 +12,7 @@
       <textarea name="problem" id="problem" disabled></textarea>
       <!-- Buttons Container  -->
       <div class="buttons">
-        <button id="show">Show Answer</button>
+        <button id="show" disabled>Show Answer</button>
         <button id="next">Next Problem</button>
       </div>
       <!-- Radio Buttons Container  -->
@@ -29,6 +29,16 @@
           <input type="radio" name="type" id="divide" />
           <label for="divide">Multiply and Divide</label>
         </div>
+      </div>
+      <div class="timer-container">
+        <input
+          type="number"
+          name="number"
+          id="number"
+          placeholder="No. of Seconds"
+        />
+        <button class="timer-btn" id="timer-btn">Start Timer</button>
+        <button class="stop-timer" id="stop-timer" disabled>Stop Timer</button>
       </div>
     </form>
     <script src="script.js"></script>

@@ -1,22 +1,28 @@
+// Declarations
 problem = document.getElementById("problem");
 next = document.getElementById("next");
 showans = document.getElementById("show");
 addThree = document.getElementById("three-adds");
 multiTwo = document.getElementById("two-multi");
 divide = document.getElementById("divide");
+timerSeconds = document.getElementById("number");
+timerBtn = document.getElementById("timer-btn");
+stopTimer = document.getElementById("stop-timer");
 
 selected = 0;
+answer = 0;
 
+// Methods of radio buttons
 addThree.onchange = () => (selected = 3);
 multiTwo.onchange = () => (selected = 2);
 divide.onchange = () => (selected = 1);
 
+// Display message on page load
 window.onload = function () {
   problem.value = "Press Next Problem to start practicing!";
 };
 
-answer = 0;
-
+// Method for the next problem button
 next.onclick = function (e) {
   problem.value = "";
   e.preventDefault();
@@ -40,8 +46,61 @@ next.onclick = function (e) {
       answer = results[1];
       break;
   }
+  if (myTime > 0) {
+    clearInterval(inter);
+    timerSeconds.value = myTime;
+  }
+  showans.disabled = false;
 };
 
+// Method for the show answer button
+showans.onclick = function (e) {
+  e.preventDefault();
+  stringAnswer = "" + answer;
+  problem.value = problem.value + "\r\n" + "Answer is: " + stringAnswer;
+  showans.disabled = true;
+};
+
+let inter;
+let myTime;
+timerBtn.onclick = function (e) {
+  e.preventDefault();
+  timerSeconds.disabled = true;
+  stopTimer.disabled = false;
+  timerBtn.disabled = true;
+  let p = parseInt(timerSeconds.value);
+  myTime = p;
+  if (typeof p !== "number" || isNaN(p) || p <= 0) {
+    alert("Please Enter a Valid Positive Number Larger than Zero");
+    timerSeconds.value = "";
+    return;
+  }
+  inter = setInterval(decrement, 1000, timerSeconds);
+};
+
+stopTimer.onclick = function (e) {
+  e.preventDefault();
+  clearInterval(inter);
+  timerSeconds.disabled = false;
+  stopTimer.disabled = true;
+  timerBtn.disabled = false;
+};
+
+let decrement = function (ele) {
+  let i = parseInt(ele.value);
+  ele.value = i - 1;
+  if (ele.value === "0") {
+    clearInterval(inter);
+    alert("Time is Up!");
+    showans.click();
+    ele.value = myTime;
+    ele.disabled = false;
+    stopTimer.disabled = true;
+    timerBtn.disabled = false;
+  }
+};
+
+// Function to call for a division problem
 divisionProblem = function () {
   signs = ["+", "-"];
   intRes = -1;
@@ -67,11 +126,12 @@ divisionProblem = function () {
     }
   }
   stringRes =
-    "" + a + " x " + b + " / " + c + " " + signs[s1] + " " + d + " x " + e;
+    "" + a + " x " + b + " ÷ " + c + " " + signs[s1] + " " + d + " x " + e;
   result = [stringRes, intRes];
   return result;
 };
 
+// Function to call for a multiplication problem
 twoMultisProblem = function () {
   signs = ["+", "-"];
   intRes = -1;
@@ -92,6 +152,7 @@ twoMultisProblem = function () {
   return result;
 };
 
+// Function to call for an addition of three numbers problem
 addThreeProblem = function () {
   signs = ["+", "-"];
   intRes = -1;
@@ -118,10 +179,4 @@ addThreeProblem = function () {
   stringRes = "" + a + signs[s1] + b + signs[s2] + c;
   result = [stringRes, intRes];
   return result;
-};
-
-showans.onclick = function (e) {
-  e.preventDefault();
-  stringAnswer = "" + answer;
-  problem.value = problem.value + "\r\n" + "Answer is: " + stringAnswer;
 };
